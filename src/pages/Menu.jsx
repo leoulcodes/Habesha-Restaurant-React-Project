@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const Menu = () => {
   // =========================
   // STATE
   // =========================
+
+  const { addToCart, cartCount } = useCart();
 
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -275,7 +278,7 @@ const Menu = () => {
 
   return (
     <section className="min-h-screen bg-[#fffaf7] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl ">
 
         {/* =========================================
             PAGE HEADER
@@ -285,12 +288,28 @@ const Menu = () => {
           <h1 className="font-serif text-3xl font-extrabold tracking-tight text-[#8f2116] sm:text-4xl">
             Our Complete Culinary Heritage
           </h1>
+          
+          <Link
+            to="/menu/cart"
+            className="relative rounded-md bg-[#a52b1c] px-4 py-2 text-xs font-bold text-white hover:bg-[#861f14]"
+          >
+            🛒 Cart
 
+            {cartCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#f4b942] px-1 text-[9px] font-bold text-[#563b34]">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+            
           <p className="mt-1 max-w-3xl text-xs leading-5 text-[#6e5d57] sm:text-sm">
             Every dish is prepared daily from scratch using sun-dried spices,
             stone-ground legume flours, and clarified herbal butter sourced
             directly from highland farm cooperatives.
           </p>
+
+
+        
         </div>
 
         {/* =========================================
@@ -531,6 +550,13 @@ const Menu = () => {
                         className="rounded bg-[#a52b1c] px-3 py-1.5 text-[10px] font-semibold text-white transition hover:bg-[#861f14] active:scale-95"
                         onClick={() => {
                           console.log("Added to order:", item);
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                        addToCart({
+                        ...item,
+                        image: image,
+                      });
                         }}
                       >
                         + Add
