@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Menu = () => {
   // =========================
@@ -423,8 +424,9 @@ const Menu = () => {
                 "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80";
 
               return (
-                <article
+                <Link
                   key={item.id}
+                  to={`/menu/${item.slug}`}
                   className="group overflow-hidden rounded-lg border border-[#eaded9] bg-white shadow-[0_2px_8px_rgba(80,40,20,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(80,40,20,0.12)]"
                 >
 
@@ -538,7 +540,7 @@ const Menu = () => {
 
                   </div>
 
-                </article>
+                </Link>
               );
             })}
 
